@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><title>Jeune Budget</title>
+<style>body{font-family:Arial;background:#f3e8ff;padding:15px;text-align:center}
+div{background:white;padding:15px;border-radius:15px;margin:10px}
+input,select,button{width:100%;padding:12px;margin:5px;border-radius:10px;border:1px solid #ddd}
+button{background:#7c3aed;color:white;font-weight:bold}</style></head>
+<body><h1>💰 Jeune Budget</h1>
+<div><h2 id="solde">0 F</h2><p id="msg">Ajoute une opération !</p></div>
+<div><select id="type"><option value="1">💰 Revenu</option><option value="-1">💸 Dépense</option></select>
+<input id="nom" placeholder="Ex: Gbaka, Argent de poche">
+<input id="montant" type="number" placeholder="Montant FCFA">
+<button onclick="go()">Ajouter</button></div>
+<div id="liste">Aucune opération</div>
+<script>
+let ops=JSON.parse(localStorage.getItem('o')||'[]');
+function show(){let s=0;ops.forEach(o=>s+=o.m);
+document.getElementById('solde').innerText=s+' F';
+document.getElementById('msg').innerText=s<0?'⚠️ Tu dépenses trop !':'🎉 Bravo, tu gères !';
+document.getElementById('liste').innerHTML=ops.map(o=>o.n+' : '+o.m+' F<br>').join('')||'Aucune opération'}
+function go(){let n=document.getElementById('nom').value;let m=parseInt(document.getElementById('montant').value)*document.getElementById('type').value;
+if(!n||!m)return alert('Remplis tout !');ops.unshift({n:n,m:m});localStorage.setItem('o',JSON.stringify(ops));show()}
+show();
+</script></body></html>    
